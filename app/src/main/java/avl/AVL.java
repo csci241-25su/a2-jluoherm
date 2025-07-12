@@ -43,32 +43,32 @@ public class AVL {
   private void bstInsert(Node n, String w) {
     if (w.compareTo(n.word) < 0) {
       if (n.left == null) {
-        n.left = new Node(w);
+        n.left = new Node(w,n);
         size++;
       } else if (w.compareTo(n.left.word) < 0) {
         if (n.left.left == null) {
-          n.left.left = new Node(w);
+          n.left.left = new Node(w,n.left);
           size++;
         }else bstInsert(n.left.left, w);
       } else if (w.compareTo(n.left.word) > 0) {
         if (n.left.right == null) {
-          n.left.right = new Node(w);
+          n.left.right = new Node(w,n.left);
           size++;
         }else bstInsert(n.left.right, w);
       }  // else w.compareTo(root.left.word) == 0
       // Do nothing, word is the same word in root.left node
     } else if (w.compareTo(n.word) > 0) {
       if (n.right == null) {
-        n.right = new Node (w);
+        n.right = new Node (w,n);
         size++;
       } else if (w.compareTo(n.right.word) < 0) {
         if (n.right.left == null) {
-          n.right.left = new Node(w);
+          n.right.left = new Node(w,n.right);
           size++;
         }else bstInsert(n.right.left, w);
       } else if (w.compareTo(n.right.word) > 0) {
         if (n.right.right == null) {
-          n.right.right = new Node(w);
+          n.right.right = new Node(w, n.right);
           size++;
         }else bstInsert(n.right.right, w);
       }  // else w.compareTo(root.right.word) == 0
