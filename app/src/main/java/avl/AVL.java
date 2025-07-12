@@ -95,7 +95,32 @@ public class AVL {
   /** do a left rotation: rotate on the edge from x to its right child.
   *  precondition: x has a non-null right child */
   public void leftRotate(Node x) {
-    // TODO
+    // For comments below, y = x.right
+    // Retain original y
+    Node tempNode = x.right;
+
+    // If y.left not null, update x.left to = y.left
+    //and update y.left parent to be x
+    if (x.right.left != null){
+      x.right.left.parent = x;
+      x.right = x.right.left;
+    }else x.right = null;
+
+    // Update x's parent's child to be y
+    if (x.parent != null && x.right != null){
+      Node tempParent = x.parent;
+
+      if (tempParent.right == x){
+        x.parent.right = tempNode;
+      }else x.parent.left = tempNode;
+      // Update y's parent to be x's old parent
+      tempNode.parent = tempParent;
+    }
+    //Update x's parent to be y
+    x.parent = tempNode;
+    //Update y's left node to be x
+    x.parent.left = x;
+
   }
 
   /** do a right rotation: rotate on the edge from x to its left child.
