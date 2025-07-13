@@ -99,14 +99,14 @@ public class AVL {
     // Retain original y
     Node tempNode = x.right;
 
-    // If y.left not null, update x.left to = y.left
+    // If y.left not null, update x.right to = y.left
     //and update y.left parent to be x
     if (x.right.left != null){
       x.right.left.parent = x;
       x.right = x.right.left;
     }else x.right = null;
 
-    // Update x's parent's child to be y
+    // Update y's parent to be x's former parent
     if (x.parent != null){
       Node tempParent = x.parent;
 
@@ -115,7 +115,7 @@ public class AVL {
       }else x.parent.left = tempNode;
       // Update y's parent to be x's old parent
       tempNode.parent = tempParent;
-      //Update y to root if x is root
+      //Update y to root if x is root & has no parent
     } else if (x == root) {
       tempNode.parent = null;
       root = tempNode;
@@ -130,7 +130,35 @@ public class AVL {
   /** do a right rotation: rotate on the edge from x to its left child.
   *  precondition: y has a non-null left child */
   public void rightRotate(Node y) {
-    // TODO
+    // For comments below, x = y.left
+    // Retain original x
+    Node tempNode = y.left;
+
+    // If x.right not null, update y.left to = x.right
+    //and update x.right.parent to be y
+    if (y.left.right != null) {
+      y.left.right.parent = y;
+      y.left = y.left.right;
+    } else y.left = null;
+
+    // Update x's parent to be y's former parent
+    if (y.parent != null) {
+      Node tempParent = y.parent;
+
+      if (tempParent.right == y) {
+        y.parent.right = tempNode;
+      } else y.parent.left = tempNode;
+      // Update y's parent to be x's old parent
+      tempNode.parent = tempParent;
+      //Update x to root if y is root
+    } else if (y == root) {
+      tempNode.parent = null;
+      root = tempNode;
+    }
+    //Update y's parent to be x
+    y.parent = tempNode;
+    //Update x's right node to be y
+    y.parent.right = y;
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
