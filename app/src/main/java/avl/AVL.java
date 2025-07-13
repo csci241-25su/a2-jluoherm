@@ -129,6 +129,13 @@ public class AVL {
     x.parent = tempNode;
     //Update y's left node to be x
     x.parent.left = x;
+    x.parent.height--;
+    x.parent.left.height++;
+    if (x.parent.left.left != null) {
+      x.parent.left.left.height++;
+    }else if (x.parent.right != null) {
+      x.parent.right.height--;
+    }
 
   }
 
