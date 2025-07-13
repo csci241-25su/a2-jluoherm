@@ -115,6 +115,10 @@ public class AVL {
       }else x.parent.left = tempNode;
       // Update y's parent to be x's old parent
       tempNode.parent = tempParent;
+      //Update y to root if x is root
+    } else if (x == root) {
+      tempNode.parent = null;
+      root = tempNode;
     }
     //Update x's parent to be y
     x.parent = tempNode;
