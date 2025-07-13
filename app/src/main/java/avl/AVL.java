@@ -129,6 +129,8 @@ public class AVL {
     x.parent = tempNode;
     //Update y's left node to be x
     x.parent.left = x;
+    //Reduce y's and y.right's (if exists) heights by 1
+    //Increase x's and x.left's (if exist) heights by 1
     x.parent.height--;
     x.parent.left.height++;
     if (x.parent.left.left != null) {
@@ -171,6 +173,15 @@ public class AVL {
     y.parent = tempNode;
     //Update x's right node to be y
     y.parent.right = y;
+    //Reduce x's and x.left's (if exists) heights by 1
+    //Increase y's and y.right's (if exist) heights by 1
+    y.parent.height--;
+    y.parent.right.height++;
+    if (y.parent.right.right != null) {
+      y.parent.right.right.height++;
+    }else if (y.parent.left != null) {
+      y.parent.left.height--;
+    }
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
