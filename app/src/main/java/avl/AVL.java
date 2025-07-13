@@ -107,7 +107,7 @@ public class AVL {
     }else x.right = null;
 
     // Update x's parent's child to be y
-    if (x.parent != null && x.right != null){
+    if (x.parent != null){
       Node tempParent = x.parent;
 
       if (tempParent.right == x){
