@@ -191,13 +191,13 @@ public class AVL {
     //Update y's left node to be x
     x.parent.left = x;
     x.parent.left.height-=2;
-
-
   }
 
   /** do a right rotation: rotate on the edge from x to its left child.
   *  precondition: y has a non-null left child */
   public void rightRotate(Node y) {
+    // For comments below, x = y.left
+    // Retain original x
     // For comments below, x = y.left
     // Retain original x
     Node tempNode = y.left;
@@ -207,15 +207,17 @@ public class AVL {
     if (y.left.right != null) {
       y.left.right.parent = y;
       y.left = y.left.right;
+      y.height++;
+      tempNode.height++;
     } else y.left = null;
 
     // Update x's parent to be y's former parent
     if (y.parent != null) {
       Node tempParent = y.parent;
 
-      if (tempParent.right == y) {
-        y.parent.right = tempNode;
-      } else y.parent.left = tempNode;
+      if (tempParent.left == y) {
+        y.parent.left = tempNode;
+      } else y.parent.right = tempNode;
       // Update y's parent to be x's old parent
       tempNode.parent = tempParent;
       //Update x to root if y is root
@@ -227,15 +229,7 @@ public class AVL {
     y.parent = tempNode;
     //Update x's right node to be y
     y.parent.right = y;
-    //Reduce x's and x.left's (if exists) heights by 1
-    //Increase y's and y.right's (if exist) heights by 1
-    y.parent.height--;
-    y.parent.right.height++;
-    if (y.parent.right.right != null) {
-      y.parent.right.right.height++;
-    }else if (y.parent.left != null) {
-      y.parent.left.height--;
-    }
+    y.parent.right.height-= 2;
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
