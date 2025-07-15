@@ -48,8 +48,9 @@ public class AVL {
                 Math.max(n.left.height, n.right == null
                         ? -1 : n.right.height);
         root.height = 1 +
-                Math.max(root.left.height, root.right == null
-                        ? -1 : root.right.height);
+                Math.max(
+                        root.right == null ? -1 : root.right.height,
+                        root.left == null ? -1 : root.left.height);
         size++;
       } else if (w.compareTo(n.left.word) < 0) {
         if (n.left.left == null) {
@@ -61,8 +62,9 @@ public class AVL {
                   Math.max(n.left.height, n.right == null
                           ? -1 : n.right.height);
           root.height = 1 +
-                  Math.max(root.left.height, root.right == null
-                          ? -1 : root.right.height);
+                  Math.max(
+                          root.right == null ? -1 : root.right.height,
+                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
           n.left.height++;
@@ -78,8 +80,9 @@ public class AVL {
                   Math.max(n.left.height, n.right == null
                           ? -1 : n.right.height);
           root.height = 1 +
-                  Math.max(root.left.height, root.right == null
-                          ? -1 : root.right.height);
+                  Math.max(
+                          root.right == null ? -1 : root.right.height,
+                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
           n.left.height++;
@@ -107,8 +110,9 @@ public class AVL {
                   Math.max(n.right.height, n.left == null
                           ? -1 : n.left.height);
           root.height = 1 +
-                  Math.max(root.right.height, root.left == null
-                          ? -1 : root.left.height);
+                  Math.max(
+                          root.right == null ? -1 : root.right.height,
+                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
           n.right.height++;
@@ -124,8 +128,9 @@ public class AVL {
                   Math.max(n.right.height, n.left == null
                           ? -1 : n.left.height);
           root.height = 1 +
-                  Math.max(root.right.height, root.left == null
-                          ? -1 : root.left.height);
+                  Math.max(
+                          root.right == null ? -1 : root.right.height,
+                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
           n.right.height++;
@@ -154,6 +159,8 @@ public class AVL {
   /** do a left rotation: rotate on the edge from x to its right child.
   *  precondition: x has a non-null right child */
   public void leftRotate(Node x) {
+    //TODO fix leftRotate heights
+
     // For comments below, y = x.right
     // Retain original y
     Node tempNode = x.right;
