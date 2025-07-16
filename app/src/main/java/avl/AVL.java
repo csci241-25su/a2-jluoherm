@@ -44,48 +44,18 @@ public class AVL {
     if (w.compareTo(n.word) < 0) {
       if (n.left == null) {
         n.left = new Node(w, n);
-        n.left.parent.height = 1 +
-                Math.max(n.left.height, n.right == null
-                        ? -1 : n.right.height);
-        root.height = 1 +
-                Math.max(
-                        root.right == null ? -1 : root.right.height,
-                        root.left == null ? -1 : root.left.height);
         size++;
       } else if (w.compareTo(n.left.word) < 0) {
         if (n.left.left == null) {
           n.left.left = new Node(w, n.left);
-          n.left.left.parent.height = 1 +
-                  Math.max(n.left.left.height, n.left.right == null
-                          ? -1 : n.left.right.height);
-          n.left.parent.height = 1 +
-                  Math.max(n.left.height, n.right == null
-                          ? -1 : n.right.height);
-          root.height = 1 +
-                  Math.max(
-                          root.right == null ? -1 : root.right.height,
-                          root.left == null ? -1 : root.left.height);
-          size++;
         } else {
-          n.left.height++;
           bstInsert(n.left.left, w);
         }
       } else if (w.compareTo(n.left.word) > 0) {
         if (n.left.right == null) {
           n.left.right = new Node(w, n.left);
-          n.left.right.parent.height = 1 +
-                  Math.max(n.left.right.height, n.left.left == null
-                          ? -1 : n.left.left.height);
-          n.left.parent.height = 1 +
-                  Math.max(n.left.height, n.right == null
-                          ? -1 : n.right.height);
-          root.height = 1 +
-                  Math.max(
-                          root.right == null ? -1 : root.right.height,
-                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
-          n.left.height++;
           bstInsert(n.left.right, w);
         }
       }  /* Else w.compareTo(root.left.word) == 0
@@ -93,47 +63,19 @@ public class AVL {
     } else if (w.compareTo(n.word) > 0) {
       if (n.right == null) {
         n.right = new Node(w, n);
-        n.right.parent.height = 1 +
-                Math.max(n.right.height, n.left == null
-                        ? -1 : n.left.height);
-        root.height = 1 +
-                Math.max(root.right.height, root.left == null
-                        ? -1 : root.left.height);
         size++;
       } else if (w.compareTo(n.right.word) < 0) {
         if (n.right.left == null) {
           n.right.left = new Node(w, n.right);
-          n.right.left.parent.height = 1 +
-                  Math.max(n.right.left.height, n.right.right == null
-                          ? -1 : n.right.right.height);
-          n.right.parent.height = 1 +
-                  Math.max(n.right.height, n.left == null
-                          ? -1 : n.left.height);
-          root.height = 1 +
-                  Math.max(
-                          root.right == null ? -1 : root.right.height,
-                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
-          n.right.height++;
           bstInsert(n.right.left, w);
         }
       } else if (w.compareTo(n.right.word) > 0) {
         if (n.right.right == null) {
           n.right.right = new Node(w, n.right);
-          n.right.right.parent.height = 1 +
-                  Math.max(n.right.right.height, n.right.left == null
-                          ? -1 : n.right.left.height);
-          n.right.parent.height = 1 +
-                  Math.max(n.right.height, n.left == null
-                          ? -1 : n.left.height);
-          root.height = 1 +
-                  Math.max(
-                          root.right == null ? -1 : root.right.height,
-                          root.left == null ? -1 : root.left.height);
           size++;
         } else {
-          n.right.height++;
           bstInsert(n.right.right, w);
         }
       }  /* Else w.compareTo(root.right.word) == 0
