@@ -89,7 +89,7 @@ public class AVL {
   /** Recalculate height of n ancestors up to and including root
    *  precondition: n is not null and already part of a valid AVL tree
    **/
-  private void resetHeight(Node n) {
+  private void reCalculateHeight(Node n) {
     int rightHeight = n.right != null ? n.right.height : 0;
     int leftHeight = n.left != null ? n.left.height : 0;
 
@@ -98,7 +98,7 @@ public class AVL {
     } else n.height = 1 + Math.max(leftHeight, rightHeight);
 
     if (n.parent != null) {
-      resetHeight(n.parent);
+      reCalculateHeight(n.parent);
     }
   }
 
@@ -118,77 +118,61 @@ public class AVL {
   /** do a left rotation: rotate on the edge from x to its right child.
   *  precondition: x has a non-null right child */
   public void leftRotate(Node x) {
-    // For comments below, y = x.right
-    // Retain original y
-    Node tempNode = x.right;
+    Node nodeY = x.right;
 
-    // If y.left not null, update x.right to = y.left
+    // If y's left node not null, update x.right to = y.left
     //and update y.left parent to be x
     if (x.right.left != null) {
       x.right.left.parent = x;
       x.right = x.right.left;
-      x.height++;
-      tempNode.height++;
     } else x.right = null;
 
     // Update y's parent to be x's former parent
     if (x.parent != null) {
-      Node tempParent = x.parent;
-
-      if (tempParent.right == x) {
-        x.parent.right = tempNode;
-      } else x.parent.left = tempNode;
-      // Update y's parent to be x's old parent
-      tempNode.parent = tempParent;
-      //Update y to root if x is root & has no parent
+      Node yNewParent = x.parent;
+      if (yNewParent.left == x) {
+        x.parent.left = nodeY;
+      } else x.parent.right = nodeY;
+      nodeY.parent = yNewParent;
     } else if (x == root) {
-      tempNode.parent = null;
-      root = tempNode;
+      nodeY.parent = null;
+      root = nodeY;
     }
     //Update x's parent to be y
-    x.parent = tempNode; //y
+    x.parent = nodeY; //y
     //Update y's left node to be x
     x.parent.left = x;
-    x.parent.left.height-=2;
+    reCalculateHeight(x);
   }
 
   /** do a right rotation: rotate on the edge from x to its left child.
   *  precondition: y has a non-null left child */
   public void rightRotate(Node y) {
-    // For comments below, x = y.left
-    // Retain original x
-    // For comments below, x = y.left
-    // Retain original x
-    Node tempNode = y.left;
+    Node x = y.left;
 
-    // If x.right not null, update y.left to = x.right
+    // If x's right node not null, update y.left to = x.right
     //and update x.right.parent to be y
     if (y.left.right != null) {
       y.left.right.parent = y;
       y.left = y.left.right;
-      y.height++;
-      tempNode.height++;
     } else y.left = null;
 
     // Update x's parent to be y's former parent
     if (y.parent != null) {
-      Node tempParent = y.parent;
-
-      if (tempParent.left == y) {
-        y.parent.left = tempNode;
-      } else y.parent.right = tempNode;
-      // Update y's parent to be x's old parent
-      tempNode.parent = tempParent;
-      //Update x to root if y is root
+      Node xNewParent = y.parent;
+      if (xNewParent.left == y) {
+        y.parent.left = x;
+      } else y.parent.right = x;
+      x.parent = xNewParent;
     } else if (y == root) {
-      tempNode.parent = null;
-      root = tempNode;
+      x.parent = null;
+      root = x;
     }
     //Update y's parent to be x
-    y.parent = tempNode;
     //Update x's right node to be y
+    y.parent = x;
     y.parent.right = y;
-    y.parent.right.height-= 2;
+    reCalculateHeight(y);
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
