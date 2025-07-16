@@ -48,6 +48,7 @@ public class AVL {
       } else if (w.compareTo(n.left.word) < 0) {
         if (n.left.left == null) {
           n.left.left = new Node(w, n.left);
+          size++;
         } else {
           bstInsert(n.left.left, w);
         }
@@ -83,6 +84,22 @@ public class AVL {
     }
     /* Else w.compareTo(root.word) == 0
      * Do nothing, word = word already in root node */
+  }
+
+  /** Recalculate height of n ancestors up to and including root
+   *  precondition: n is not null and already part of a valid AVL tree
+   **/
+  private void resetHeight(Node n) {
+    int rightHeight = n.right != null ? n.right.height : 0;
+    int leftHeight = n.left != null ? n.left.height : 0;
+
+    if (n.right == null && n.left == null) {
+      n.height = 0;
+    } else n.height = 1 + Math.max(leftHeight, rightHeight);
+
+    if (n.parent != null) {
+      resetHeight(n.parent);
+    }
   }
 
   /** insert w into the tree, maintaining AVL balance
