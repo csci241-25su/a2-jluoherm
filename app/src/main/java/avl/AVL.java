@@ -122,12 +122,16 @@ public class AVL {
         n.left = new Node(w, n);
         n.left.height = 0;
         reCalculateHeight(n);
+        if (n.parent != null && n.parent.parent != null){
+          rebalance(n);
+        }
         size++;
       } else if (w.compareTo(n.left.word) < 0) {
         if (n.left.left == null) {
           n.left.left = new Node(w, n.left);
           n.left.left.height = 0;
           reCalculateHeight(n.left);
+          rebalance(n.left);
           size++;
         } else {
           avlInsert(n.left.left, w);
@@ -137,6 +141,7 @@ public class AVL {
           n.left.right = new Node(w, n.left);
           n.left.right.height = 0;
           reCalculateHeight(n.left);
+          rebalance(n.left);
           size++;
         } else {
           avlInsert(n.left.right, w);
@@ -148,12 +153,16 @@ public class AVL {
         n.right = new Node(w, n);
         n.right.height = 0;
         reCalculateHeight(n);
+        if (n.parent != null && n.parent.parent != null){
+          rebalance(n);
+        }
         size++;
       } else if (w.compareTo(n.right.word) < 0) {
         if (n.right.left == null) {
           n.right.left = new Node(w, n.right);
           n.right.left.height = 0;
           reCalculateHeight(n.right);
+          rebalance(n.right);
           size++;
         } else {
           avlInsert(n.right.left, w);
@@ -163,6 +172,7 @@ public class AVL {
           n.right.right = new Node(w, n.right);
           n.right.right.height = 0;
           reCalculateHeight(n.right);
+          rebalance(n.right);
           size++;
         } else {
           avlInsert(n.right.right, w);
