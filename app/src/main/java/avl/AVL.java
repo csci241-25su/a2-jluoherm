@@ -106,13 +106,72 @@ public class AVL {
   *  precondition: the tree is AVL balanced and any prior insertions have been
   *  performed by this method. */
   public void avlInsert(String w) {
-    // TODO
+    if (root == null) {
+      root = new Node(w);
+      size = 1;
+      return;
+    }
+    avlInsert(root, w);
   }
 
   /* insert w into the tree, maintaining AVL balance
    *  precondition: the tree is AVL balanced and n is not null */
   private void avlInsert(Node n, String w) {
-    // TODO
+    if (w.compareTo(n.word) < 0) {
+      if (n.left == null) {
+        n.left = new Node(w, n);
+        n.left.height = 0;
+        reCalculateHeight(n);
+        size++;
+      } else if (w.compareTo(n.left.word) < 0) {
+        if (n.left.left == null) {
+          n.left.left = new Node(w, n.left);
+          n.left.left.height = 0;
+          reCalculateHeight(n.left);
+          size++;
+        } else {
+          avlInsert(n.left.left, w);
+        }
+      } else if (w.compareTo(n.left.word) > 0) {
+        if (n.left.right == null) {
+          n.left.right = new Node(w, n.left);
+          n.left.right.height = 0;
+          reCalculateHeight(n.left);
+          size++;
+        } else {
+          avlInsert(n.left.right, w);
+        }
+      }  /* Else w.compareTo(root.left.word) == 0
+       * Do nothing, word = word already in root.left node*/
+    } else if (w.compareTo(n.word) > 0) {
+      if (n.right == null) {
+        n.right = new Node(w, n);
+        n.right.height = 0;
+        reCalculateHeight(n);
+        size++;
+      } else if (w.compareTo(n.right.word) < 0) {
+        if (n.right.left == null) {
+          n.right.left = new Node(w, n.right);
+          n.right.left.height = 0;
+          reCalculateHeight(n.right);
+          size++;
+        } else {
+          avlInsert(n.right.left, w);
+        }
+      } else if (w.compareTo(n.right.word) > 0) {
+        if (n.right.right == null) {
+          n.right.right = new Node(w, n.right);
+          n.right.right.height = 0;
+          reCalculateHeight(n.right);
+          size++;
+        } else {
+          avlInsert(n.right.right, w);
+        }
+      }  /* Else w.compareTo(root.right.word) == 0
+       * Do nothing, word = word already in root.right node */
+    }
+    /* Else w.compareTo(root.word) == 0
+     * Do nothing, word = word already in root node */
   }
 
   /** do a left rotation: rotate on the edge from x to its right child.
