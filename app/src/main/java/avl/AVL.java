@@ -245,9 +245,11 @@ public class AVL {
   /** rebalance a node N after a potentially AVL-violoting insertion.
   *  precondition: none of n's descendants violates the AVL property */
   public void rebalance(Node n) {
-    //n is the parent of recently added node
+    //n is parent of recently added node
+
     Node npp = n.parent.parent;
     Node np = n.parent;
+
     int npLeftHeight = np.left != null ? np.left.height : 0;
     int npRightHeight = np.right != null ? np.right.height : 0;
 
@@ -268,6 +270,9 @@ public class AVL {
           rightRotate(np);
           leftRotate(npp);
         }else leftRotate(npp);
+      }
+      if (n.parent != null){
+        rebalance(n.parent);
       }
     }
   }
