@@ -234,10 +234,42 @@ public class AVL {
     reCalculateHeight(y);
   }
 
+  /** get Node n's balance to use in the rebalance method
+   *  precondition: none of n's descendants violates the AVL property */
+  private int getBalance(Node n) {
+    int rightHeight = n.right != null ? n.right.height : -1;
+    int leftHeight = n.left != null ? n.left.height : -1;
+    return rightHeight - leftHeight;
+  }
+
   /** rebalance a node N after a potentially AVL-violoting insertion.
   *  precondition: none of n's descendants violates the AVL property */
   public void rebalance(Node n) {
-    // TODO
+    //n is the parent of recently added node
+    Node npp = n.parent.parent;
+    Node np = n.parent;
+    int npLeftHeight = np.left != null ? np.left.height : 0;
+    int npRightHeight = np.right != null ? np.right.height : 0;
+
+    if (npp != null) {
+      int nppBalance = getBalance(npp);
+
+      //Case 1 & 2
+      if (nppBalance < -1) {
+        if (npLeftHeight > npRightHeight) {
+          rightRotate(npp);
+        } else {
+          leftRotate(np);
+          rightRotate(npp);
+        }
+        //Case 3 & 4
+      } else if (nppBalance > 1){
+        if (npLeftHeight > npRightHeight){
+          rightRotate(np);
+          leftRotate(npp);
+        }else leftRotate(npp);
+      }
+    }
   }
 
   /** remove the word w from the tree */
