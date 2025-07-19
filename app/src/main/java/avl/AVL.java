@@ -256,12 +256,12 @@ public class AVL {
   *  precondition: none of n's descendants violates the AVL property */
   public void rebalance(Node n) {
     int nbalance = getBalance(n);
-    int nLeftHeight = n.left != null ? n.left.height : 0;
-    int nRightHeight = n.right != null ? n.right.height : 0;
+    int nleftBalance = n.left != null ? getBalance(n.left) : 0;
+    int nrightBalance = n.right != null ? getBalance(n.right) : 0;
 
     //Case 1 & 2
     if (nbalance < -1) {
-      if (nLeftHeight < 0) {
+      if (nleftBalance < 0) {
         rightRotate(n);
       } else {
         leftRotate(n.left);
@@ -269,10 +269,10 @@ public class AVL {
       }
       //Case 3 & 4
     } else if (nbalance > 1){
-      if (nRightHeight > 0) {
+      if (nrightBalance < 0) {
+        rightRotate(n.right);
         leftRotate(n);
       } else {
-        rightRotate(n.right);
         leftRotate(n);
       }
     }
