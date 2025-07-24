@@ -30,7 +30,7 @@ public class Unique {
         }
     }
 
-    /** Return the number of unique lines availble to be read by sc */ 
+    /** Return the number of unique lines available to be read by sc */
     private static int naiveUnique(Scanner sc) {
       // unique lines seen so far
       ArrayList<String> seen = new ArrayList<String>();
@@ -49,10 +49,23 @@ public class Unique {
       return seen.size();
     }
 
-    /** Return the number of unique lines availble to be read by sc */ 
+    /** Return the number of unique lines available to be read by sc */
     private static int avlUnique(Scanner sc) {
-      // TODO - implement this; its runtime should be O(n log n)
-      return 0; // placeholder, so code compiles
+        //Unique lines seen so far
+        AVL seen = new AVL();
+        int uniqueLines = 0;
+
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            AVL.Node n = seen.search(line);
+
+            // check if it's in the tree
+            if (n == null){
+                seen.avlInsert(line);
+                uniqueLines++;
+            }
+        }
+        return uniqueLines;
     }
 
 
