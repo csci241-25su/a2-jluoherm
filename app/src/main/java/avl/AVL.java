@@ -17,13 +17,17 @@ public class AVL {
 
   public int getSize() {return size;}
 
-  public int getMaxCount() {return maxCount;}
+  public int getMaxCount() {
+    return maxCount == 0 ? root.count : maxCount;
+  }
 
   public void setMaxCount (int count) {maxCount = count;}
 
   public Node maxCountNode = null;
 
-  public Node getMaxCountNode() {return maxCountNode;}
+  public Node getMaxCountNode() {
+    return maxCountNode == null ? root : maxCountNode;
+  }
 
   public void setMaxCountNode(Node n){maxCountNode = n;}
 
@@ -120,6 +124,18 @@ public class AVL {
     }
   }
 
+  /** Helper method to increment count of occurrences of unique string inserts
+   * Updates maxCount node to point to the current node if the
+   *  occurrence count is greater than the existing node pointed to by maxCount
+   * */
+  private void updateMaxCount (Node n){
+    n.count++;
+    if (n.count > getMaxCount()){
+      setMaxCount(n.count);
+      setMaxCountNode(n);
+    }
+  }
+
   /** insert w into the tree, maintaining AVL balance
   *  precondition: the tree is AVL balanced and any prior insertions have been
   *  performed by this method. */
@@ -164,14 +180,13 @@ public class AVL {
         } else {
           avlInsert(n.left.right, w);
         }
-      }  /* Else w.compareTo(root.left.word) == 0
-       * Do nothing, word = word already in root.left node*/
+      } else updateMaxCount(n.left);
     } else if (w.compareTo(n.word) > 0) {
       if (n.right == null) {
         n.right = new Node(w, n);
         n.right.height = 0;
         reCalculateHeight(n);
-        if (n.parent != null && n.parent.parent != null){
+        if (n.parent != null && n.parent.parent != null) {
           rebalance(n);
         }
         size++;
@@ -195,11 +210,8 @@ public class AVL {
         } else {
           avlInsert(n.right.right, w);
         }
-      }  /* Else w.compareTo(root.right.word) == 0
-       * Do nothing, word = word already in root.right node */
-    }
-    /* Else w.compareTo(root.word) == 0
-     * Do nothing, word = word already in root node */
+      } else updateMaxCount(n.right);
+    }else updateMaxCount(n);
   }
 
   /** do a left rotation: rotate on the edge from x to its right child.
