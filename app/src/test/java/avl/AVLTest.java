@@ -3,6 +3,7 @@ package avl;
 import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Rule;
@@ -595,6 +596,107 @@ public class AVLTest {
 
   }
 
+  /** Test enhancement for setting / getting string with max occurrence in tree.
+   * Test max is not root and ties*/
+  @Test
+  public void test63getMaxCountNode(){
+    AVL a = new AVL();
+    ArrayList<String> list = new ArrayList<>();
+    list.add("dmim");
+    list.add("fefb");
+    list.add("bvry");
+    list.add("kivz");
+    list.add("bvry"); //count = 2
+    list.add("jrth");
+    list.add("ohkq");
 
+    for (String s : list) {
+      AVL.Node n = a.search(s);
+      if (n == null) {
+        a.avlInsert(s);
+      } else {
+        n.count++;
+        if (n.count > a.getMaxCount()) {
+          a.setMaxCount(n.count);
+          a.setMaxCountNode(n);
+        }
+      }
+    }
+    assertEquals(a.search("bvry"), a.getMaxCountNode());
+    assertEquals(2, a.getMaxCount());
 
+    //Validate tie does not update maxCountNode
+    AVL.Node n = a.search("fefb");
+    if (n == null) {
+      a.avlInsert("fefb");
+    } else {
+      n.count++;
+      if (n.count > a.getMaxCount()) {
+        a.setMaxCount(n.count);
+        a.setMaxCountNode(n);
+      }
+    }
+    assertEquals(a.search("bvry"), a.getMaxCountNode());
+    assertEquals(2, a.getMaxCount());
+
+  }
+
+  @Test
+  /** Test enhancement for setting / getting string with max occurrence in tree
+   * Validate first to maxCount remains max count */
+  public void test64getMaxCountNode(){
+    AVL a = new AVL();
+    ArrayList<String> list = new ArrayList<>();
+    list.add("a");
+    list.add("b");
+    list.add("a");
+    list.add("b");
+
+    for (String s : list) {
+      AVL.Node n = a.search(s);
+      if (n == null) {
+        a.avlInsert(s);
+      } else {
+        n.count++;
+        if (n.count > a.getMaxCount()) {
+          a.setMaxCount(n.count);
+          a.setMaxCountNode(n);
+        }
+      }
+    }
+    assertEquals(a.search("a"), a.getMaxCountNode());
+    assertEquals(2, a.getMaxCount());
+  }
+
+  @Test
+  /** Test enhancement for setting / getting string with max occurrence in tree
+   * Validate empty tree / single node tree */
+  public void test65getMaxCountNode(){
+    AVL a = new AVL();
+    //Empty tree
+    assertNull(a.getMaxCountNode());
+
+    ArrayList<String> list = new ArrayList<>();
+    list.add("foo");
+    list.add("foo");
+    list.add("foo");
+    list.add("foo");
+    list.add("foo");
+
+    for (String s : list) {
+      AVL.Node n = a.search(s);
+      if (n == null) {
+        a.avlInsert(s);
+      } else {
+        n.count++;
+        if (n.count > a.getMaxCount()) {
+          a.setMaxCount(n.count);
+          a.setMaxCountNode(n);
+        }
+      }
+    }
+    assertEquals(a.search("foo"), a.getMaxCountNode());
+    assertEquals(5, a.getMaxCount());
+
+  }
 }

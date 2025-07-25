@@ -3,6 +3,8 @@ package avl;
 /**
  * AVL tree enhanced to count how many times each word is inserted.
  * Tracks `maxCount` and `maxCountNode` for access to the most frequently occurring line
+ * If more than one string equals the maxCount, the string that was first set as the maxCount should remain
+ * as the maxCount string
  */
 
 public class AVL {
@@ -19,7 +21,7 @@ public class AVL {
 
   public void setMaxCount (int count) {maxCount = count;}
 
-  public Node maxCountNode;
+  public Node maxCountNode = null;
 
   public Node getMaxCountNode() {return maxCountNode;}
 
