@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 public class Unique {
 
     /** Main program: prints the number of unique lines in a given file by one
-     * of two methods */
+     * of two methods
+     * Enhancement: Added option to print the most frequency occurring unique line in
+     * a given file using the avlMaxCount method.
+     * */
     public static void main(String[] args) {
         if (args.length != 2) {
           System.out.println("Requires 2 arguments: naive or avl and a filename.");
@@ -16,14 +19,21 @@ public class Unique {
         try {
             File f = new File(args[1]);
             Scanner sc = new Scanner(f);
-            System.out.println("Finding unique lines in " + args[1]);
-            if (args[0].equals("naive")) {
-              System.out.println("Naive:");
-              System.out.println(naiveUnique(sc));
-            } else {
-              System.out.println(args[1]);
-              System.out.println("AVL:");
-              System.out.println(avlUnique(sc));
+            if (args[0].equals("maxCount")){
+                System.out.println("Finding most frequency occurring line in " + args[1]);
+                AVL.Node n = avlMaxCount(sc);
+                System.out.println("Line: " + n.word);
+                System.out.println("Count: " + n.count);
+            }else {
+                System.out.println("Finding unique lines in " + args[1]);
+                if (args[0].equals("naive")) {
+                    System.out.println("Naive:");
+                    System.out.println(naiveUnique(sc));
+                } else {
+                    System.out.println(args[1]);
+                    System.out.println("AVL:");
+                    System.out.println(avlUnique(sc));
+                }
             }
         } catch (FileNotFoundException exc) {
             System.out.println("Could not find file " + args[1]);
@@ -68,5 +78,29 @@ public class Unique {
         return uniqueLines;
     }
 
+    /** Return the most frequency occurring line in the file */
+    private static AVL.Node avlMaxCount(Scanner sc) {
+        //Lines seen so far
+        AVL seen = new AVL();
 
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            AVL.Node n = seen.search(line);
+
+            // check if it's in the tree
+            if (n == null){
+                seen.avlInsert(line);
+            } else {
+                //Increment line's occurrence counter
+                // If line's occurrence count is greater than existing maximum,
+                // set maxCountNode to point to current node
+                n.count++;
+                if (n.count > seen.getMaxCount()){
+                    seen.setMaxCount(n.count);
+                    seen.setMaxCountNode(n);
+                }
+            }
+        }
+        return seen.getMaxCountNode();
+    }
 }

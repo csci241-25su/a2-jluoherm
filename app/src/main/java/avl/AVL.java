@@ -1,14 +1,30 @@
 package avl;
 
+/**
+ * AVL tree enhanced to count how many times each word is inserted.
+ * Tracks `maxCount` and `maxCountNode` for access to the most frequently occurring line
+ */
+
 public class AVL {
 
   public Node root;
 
   private int size;
 
-  public int getSize() {
-    return size;
-  }
+  private int maxCount = 0;
+
+  public int getSize() {return size;}
+
+  public int getMaxCount() {return maxCount;}
+
+  public void setMaxCount (int count) {maxCount = count;}
+
+  public Node maxCountNode;
+
+  public Node getMaxCountNode() {return maxCountNode;}
+
+  public void setMaxCountNode(Node n){maxCountNode = n;}
+
 
   /** find w in the tree. return the node containing w or
   * null if not found */
@@ -315,6 +331,7 @@ public class AVL {
     public Node left;
     public Node right;
     public int height;
+    public int count = 1;
 
     public String toString() {
       return word + "(" + height + ")";
