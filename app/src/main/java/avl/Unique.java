@@ -9,7 +9,7 @@ public class Unique {
     /** Main program: prints the number of unique lines in a given file by one
      * of two methods
      * Enhancement: Added option to print the most frequency occurring unique line in
-     * a given file using the avlMaxCount method.
+     * a given file using the avlMaxCount method. Use maxCount as 1st argument to use
      * */
     public static void main(String[] args) {
         if (args.length != 2) {
