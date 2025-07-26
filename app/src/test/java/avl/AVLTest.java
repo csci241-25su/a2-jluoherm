@@ -601,41 +601,19 @@ public class AVLTest {
   @Test
   public void test63getMaxCountNode(){
     AVL a = new AVL();
-    ArrayList<String> list = new ArrayList<>();
-    list.add("dmim");
-    list.add("fefb");
-    list.add("bvry");
-    list.add("kivz");
-    list.add("bvry"); //count = 2
-    list.add("jrth");
-    list.add("ohkq");
+    a.avlInsert("dmim");
+    a.avlInsert("fefb");
+    a.avlInsert("bvry");
+    a.avlInsert("kivz");
+    a.avlInsert("bvry"); //count = 2
+    a.avlInsert("jrth");
+    a.avlInsert("ohkq");
 
-    for (String s : list) {
-      AVL.Node n = a.search(s);
-      if (n == null) {
-        a.avlInsert(s);
-      } else {
-        n.count++;
-        if (n.count > a.getMaxCount()) {
-          a.setMaxCount(n.count);
-          a.setMaxCountNode(n);
-        }
-      }
-    }
     assertEquals(a.search("bvry"), a.getMaxCountNode());
     assertEquals(2, a.getMaxCount());
 
     //Validate tie does not update maxCountNode
-    AVL.Node n = a.search("fefb");
-    if (n == null) {
-      a.avlInsert("fefb");
-    } else {
-      n.count++;
-      if (n.count > a.getMaxCount()) {
-        a.setMaxCount(n.count);
-        a.setMaxCountNode(n);
-      }
-    }
+    a.avlInsert("fefb");
     assertEquals(a.search("bvry"), a.getMaxCountNode());
     assertEquals(2, a.getMaxCount());
 
@@ -646,24 +624,11 @@ public class AVLTest {
    * Validate first to maxCount remains max count */
   public void test64getMaxCountNode(){
     AVL a = new AVL();
-    ArrayList<String> list = new ArrayList<>();
-    list.add("a");
-    list.add("b");
-    list.add("a");
-    list.add("b");
+    a.avlInsert("a");
+    a.avlInsert("b");
+    a.avlInsert("a");
+    a.avlInsert("b");
 
-    for (String s : list) {
-      AVL.Node n = a.search(s);
-      if (n == null) {
-        a.avlInsert(s);
-      } else {
-        n.count++;
-        if (n.count > a.getMaxCount()) {
-          a.setMaxCount(n.count);
-          a.setMaxCountNode(n);
-        }
-      }
-    }
     assertEquals(a.search("a"), a.getMaxCountNode());
     assertEquals(2, a.getMaxCount());
   }
@@ -676,25 +641,12 @@ public class AVLTest {
     //Empty tree
     assertNull(a.getMaxCountNode());
 
-    ArrayList<String> list = new ArrayList<>();
-    list.add("foo");
-    list.add("foo");
-    list.add("foo");
-    list.add("foo");
-    list.add("foo");
+    a.avlInsert("foo");
+    a.avlInsert("foo");
+    a.avlInsert("foo");
+    a.avlInsert("foo");
+    a.avlInsert("foo");
 
-    for (String s : list) {
-      AVL.Node n = a.search(s);
-      if (n == null) {
-        a.avlInsert(s);
-      } else {
-        n.count++;
-        if (n.count > a.getMaxCount()) {
-          a.setMaxCount(n.count);
-          a.setMaxCountNode(n);
-        }
-      }
-    }
     assertEquals(a.search("foo"), a.getMaxCountNode());
     assertEquals(5, a.getMaxCount());
 

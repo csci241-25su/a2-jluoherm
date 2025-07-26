@@ -85,21 +85,8 @@ public class Unique {
 
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            AVL.Node n = seen.search(line);
+            seen.avlInsert(line);
 
-            // check if it's in the tree
-            if (n == null){
-                seen.avlInsert(line);
-            } else {
-                //Increment line's occurrence counter
-                // If line's occurrence count is greater than existing maximum,
-                // set maxCountNode to point to current node
-                n.count++;
-                if (n.count > seen.getMaxCount()){
-                    seen.setMaxCount(n.count);
-                    seen.setMaxCountNode(n);
-                }
-            }
         }
         return seen.getMaxCountNode();
     }
